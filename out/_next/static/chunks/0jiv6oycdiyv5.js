@@ -1,0 +1,6 @@
+__turbopack_load_page_chunks__("/concept/[slug]", [
+  "static/chunks/12p27ds8cw3k7.js",
+  "static/chunks/06.p6cyrqp_-g.js",
+  "static/chunks/0v~g5_81ots--.js",
+  "static/chunks/turbopack-0.y0vixlfq.y_.js"
+])

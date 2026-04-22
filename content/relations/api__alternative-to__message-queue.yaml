@@ -1,0 +1,7 @@
+type: relation
+from: api
+to: message-queue
+relation_type: alternative-to
+
+description: >
+  API và message queue là hai cách giao tiếp khác nhau (sync vs async).

@@ -1,0 +1,11 @@
+type: domain
+slug: infrastructure
+title: Infrastructure
+
+parent: system-design
+
+children:
+  - docker
+  - database
+
+order: 2

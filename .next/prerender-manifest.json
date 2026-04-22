@@ -1,0 +1,105 @@
+{
+  "version": 4,
+  "routes": {
+    "/": {
+      "initialRevalidateSeconds": false,
+      "srcRoute": null,
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/index.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/concept/api": {
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/concept/[slug]",
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/api.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/concept/database": {
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/concept/[slug]",
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/database.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/concept/docker": {
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/concept/[slug]",
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/docker.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/concept/message-queue": {
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/concept/[slug]",
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/message-queue.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/concept/microservices": {
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/concept/[slug]",
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/microservices.json",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    }
+  },
+  "dynamicRoutes": {
+    "/concept/[slug]": {
+      "routeRegex": "^/concept/([^/]+?)(?:/)?$",
+      "dataRoute": "/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/[slug].json",
+      "fallback": false,
+      "dataRouteRegex": "^/_next/data/XCGSRIvmT_OXDSLvH83jt/concept/([^/]+?)\\.json$",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    }
+  },
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "7688b93859bf6867f34dcc90a3631251",
+    "previewModeSigningKey": "be7c7faa1e6ded783073348984b38300b494771cd20fa9fbd1aad15cca153395",
+    "previewModeEncryptionKey": "2b3970c0a6cd883ea078ba8ea30e622296dbbff3ccb5d1b51083bb209bdc924d"
+  }
+}

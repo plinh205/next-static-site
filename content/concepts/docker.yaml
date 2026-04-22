@@ -1,0 +1,33 @@
+type: concept
+slug: docker
+title: Docker
+
+domain: infrastructure
+
+tags:
+  - container
+
+summary: >
+  Công cụ đóng gói ứng dụng và môi trường chạy vào container.
+
+mental_model: >
+  Giống như mang cả gian bếp đi nấu ở bất cứ đâu.
+
+core_mechanism:
+  - Containerization
+  - Image → Container runtime
+
+when_to_use:
+  - Deploy ứng dụng nhanh
+  - Đảm bảo môi trường consistent
+
+compare:
+  - target: virtual-machine
+    difference: Docker nhẹ hơn, không cần OS riêng
+
+difficulty: beginner
+importance: high
+status: learning
+
+created_at: 2026-04-21
+updated_at: 2026-04-21

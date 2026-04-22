@@ -1,0 +1,7 @@
+type: relation
+from: docker
+to: microservices
+relation_type: used-with
+
+description: >
+  Docker thường được dùng để deploy microservices.

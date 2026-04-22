@@ -1,0 +1,7 @@
+type: relation
+from: database
+to: microservices
+relation_type: used-with
+
+description: >
+  Mỗi microservice thường có database riêng.

@@ -1,0 +1,7 @@
+type: relation
+from: api
+to: microservices
+relation_type: used-with
+
+description: >
+  API được dùng để giao tiếp giữa các microservices.

@@ -1,0 +1,14 @@
+type: domain
+slug: system-design
+title: System Design
+
+description: >
+  Kiến thức về thiết kế hệ thống backend, scalability và architecture.
+
+parent: null
+
+children:
+  - communication
+  - infrastructure
+
+order: 1

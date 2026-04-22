@@ -1,0 +1,11 @@
+type: domain
+slug: communication
+title: Communication
+
+parent: system-design
+
+children:
+  - api
+  - message-queue
+
+order: 1

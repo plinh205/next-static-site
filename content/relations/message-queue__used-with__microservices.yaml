@@ -1,0 +1,7 @@
+type: relation
+from: message-queue
+to: microservices
+relation_type: used-with
+
+description: >
+  Message queue giúp các microservices giao tiếp bất đồng bộ.
