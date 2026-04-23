@@ -8,19 +8,13 @@ interface LearningTimelineProps {
   fallbackTopic: string;
 }
 
-export default function LearningTimeline({
-  logs,
-  fallbackTopic,
-}: LearningTimelineProps) {
-  if (!logs.length) {
-    return null;
-  }
+export default function LearningTimeline({ logs, fallbackTopic }: LearningTimelineProps) {
+  if (!logs.length) return null;
 
   return (
-    <section className="section-block">
-      <h2 className="section-label">Learning Logs</h2>
-
-      <ol className="learning-timeline">
+    <section>
+      <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Learning Logs</h2>
+      <ol className="flex flex-col">
         {logs.map((log, index) => (
           <LearningLog
             key={`${log.date || "log"}-${log.trigger || index}`}

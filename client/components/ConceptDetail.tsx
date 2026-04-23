@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 import { getConceptDisplayData } from "@/lib/knowledge";
 import type { Concept } from "@/lib/mockData";
 import LearningTimeline from "./LearningTimeline";
@@ -29,86 +30,85 @@ export default function ConceptDetail({ concept }: ConceptDetailProps) {
         ];
 
   return (
-    <>
-      <header className="page-header">
-        <Link to="/" className="back-link">
-          ← Back to Home
+    <div className="max-w-4xl mx-auto px-8 py-10">
+      <header className="mb-10">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-900 mb-4 text-sm transition-colors"
+        >
+          <ChevronLeft size={16} />
+          Back to Home
         </Link>
 
         {concept.breadcrumb?.length ? (
-          <nav className="breadcrumb">
-            <Link to="/" className="breadcrumb__link">
+          <nav className="flex flex-wrap items-center gap-2 text-slate-500 text-sm mb-4">
+            <Link to="/" className="hover:text-slate-900 transition-colors">
               Knowledge Base
             </Link>
-
             {concept.breadcrumb.map((item) => (
-              <div key={item} className="breadcrumb__item">
-                <span className="breadcrumb__separator">/</span>
+              <div key={item} className="flex items-center gap-2">
+                <span className="text-slate-300">/</span>
                 <span>{item}</span>
               </div>
             ))}
           </nav>
         ) : null}
 
-        <h1 className="page-title">{content.title}</h1>
+        <h1 className="text-4xl font-bold text-slate-900 leading-tight">{content.title}</h1>
       </header>
 
-      <div className="section-stack">
-        <section className="section-block">
-          <h2 className="section-label">Summary</h2>
-          <p className="section-text section-text--lead">{content.summary}</p>
+      <div className="flex flex-col gap-10">
+        <section>
+          <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Summary</h2>
+          <p className="text-slate-700 text-lg leading-relaxed">{content.summary}</p>
         </section>
 
-        <section className="section-block">
-          <h2 className="section-label">Mental Model</h2>
-          <div className="section-panel section-panel--info">
-            <p className="section-text section-text--strong">
-              {content.mentalModel}
-            </p>
+        <section>
+          <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Mental Model</h2>
+          <div className="border-l-4 border-blue-500 bg-blue-50 px-6 py-4 rounded-r-lg">
+            <p className="text-slate-800 font-semibold">{content.mentalModel}</p>
           </div>
         </section>
 
-        <section className="section-block">
-          <h2 className="section-label">Core Mechanism</h2>
-          <ul className="bullet-list">
+        <section>
+          <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Core Mechanism</h2>
+          <ul className="flex flex-col gap-3">
             {coreMechanismItems.map((item) => (
-              <li key={item} className="bullet-list__item">
-                <span className="bullet-list__marker">•</span>
-                <span className="section-text">{item}</span>
+              <li key={item} className="flex gap-3 items-start">
+                <span className="text-slate-400 leading-7">•</span>
+                <span className="text-slate-700 leading-7">{item}</span>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="section-block section-panel section-panel--warm">
-          <h2 className="section-label section-label--warm">When to Use</h2>
-          <ul className="bullet-list">
-            {whenToUseItems.map((item) => (
-              <li key={item} className="bullet-list__item">
-                <span className="bullet-list__marker bullet-list__marker--warm">
-                  ✓
-                </span>
-                <span className="section-text section-text--strong">{item}</span>
+        <section className="border-2 border-amber-200 bg-amber-50 p-6 rounded-lg">
+          <h2 className="text-sm font-semibold text-amber-900 uppercase tracking-wider mb-4">When to Use</h2>
+          <ul className="space-y-2">
+            {whenToUseItems.map((item, idx) => (
+              <li key={idx} className="flex gap-3">
+                <span className="text-amber-600 flex-shrink-0">✓</span>
+                <span className="text-slate-800 font-medium">{item}</span>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="section-block section-panel section-panel--compare">
-          <h2 className="section-label section-label--compare">Compare</h2>
-          <div className="compare-table-wrap">
-            <table className="compare-table">
+        <section className="border-2 border-purple-200 bg-purple-50 p-6 rounded-lg">
+          <h2 className="text-sm font-semibold text-purple-900 uppercase tracking-wider mb-4">Compare</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
               <thead>
-                <tr>
-                  <th>Target</th>
-                  <th>Difference</th>
+                <tr className="border-b border-purple-200">
+                  <th className="text-left py-2 px-3 text-purple-900 font-semibold">Target Concept</th>
+                  <th className="text-left py-2 px-3 text-purple-900 font-semibold">Difference</th>
                 </tr>
               </thead>
               <tbody>
-                {compareRows.map((row) => (
-                  <tr key={`${row.target}-${row.difference}`}>
-                    <td>{row.target}</td>
-                    <td>{row.difference}</td>
+                {compareRows.map((row, idx) => (
+                  <tr key={idx} className="border-b border-purple-100">
+                    <td className="py-3 px-3 text-slate-900 font-medium">{row.target}</td>
+                    <td className="py-3 px-3 text-slate-700">{row.difference}</td>
                   </tr>
                 ))}
               </tbody>
@@ -119,12 +119,9 @@ export default function ConceptDetail({ concept }: ConceptDetailProps) {
         <RelationList relations={concept.relations} />
 
         {concept.learningLogs?.length ? (
-          <LearningTimeline
-            logs={concept.learningLogs}
-            fallbackTopic={content.title}
-          />
+          <LearningTimeline logs={concept.learningLogs} fallbackTopic={content.title} />
         ) : null}
       </div>
-    </>
+    </div>
   );
 }

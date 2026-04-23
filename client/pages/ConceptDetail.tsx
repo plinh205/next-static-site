@@ -9,16 +9,16 @@ export default function ConceptDetailPage() {
 
   if (!concept) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="text-center">
-          <h1 className="mb-2 text-2xl font-bold text-slate-900">
-            Concept not found
-          </h1>
-          <Link to="/" className="text-blue-600 hover:underline">
-            Back to home
-          </Link>
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">Concept not found</h1>
+            <Link to="/" className="text-blue-600 hover:underline">
+              Back to home
+            </Link>
+          </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 

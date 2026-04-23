@@ -78,7 +78,7 @@ export default function TopNav() {
 
   return (
     <nav className="border-b border-slate-200 bg-white sticky top-0 z-50">
-      <div className="flex items-center gap-4 px-6 py-3">
+      <div className="flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link
           to="/"
@@ -92,19 +92,19 @@ export default function TopNav() {
           </span>
         </Link>
 
-        {/* Search Bar — centred, flex-1 */}
-        <div className="flex-1 relative" ref={searchRef}>
+        {/* Search Bar */}
+        <div className="flex-1 max-w-md mx-4 relative" ref={searchRef}>
           <div
             className="relative flex items-center bg-slate-100 rounded-lg px-3 py-2 cursor-text"
             onClick={() => setSearchOpen(true)}
           >
-            <Search size={16} className="text-slate-400 mr-2" />
+            <Search size={18} className="text-slate-400 flex-shrink-0" />
             <input
               type="text"
               placeholder="Search concepts..."
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
-              className="bg-transparent flex-1 outline-none text-sm"
+              className="flex-1 bg-transparent px-3 py-1 text-sm outline-none"
               onFocus={() => setSearchOpen(true)}
             />
             {searchQuery && (
@@ -122,7 +122,7 @@ export default function TopNav() {
 
           {/* Search Results */}
           {searchOpen && results.length > 0 && (
-            <div className="absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-lg shadow-lg mt-1 z-50 max-h-96 overflow-auto">
+            <div className="absolute top-full left-0 right-0 bg-white border border-slate-200 rounded-lg shadow-lg mt-2 z-50 max-h-96 overflow-auto">
               {results.map((result) => (
                 <button
                   key={result.slug}
@@ -139,31 +139,40 @@ export default function TopNav() {
               ))}
             </div>
           )}
+
+          {/* Empty state */}
+          {searchOpen && searchQuery && results.length === 0 && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-lg shadow-lg p-4 z-50">
+              <p className="text-sm text-slate-600 text-center">
+                No concepts found for "{searchQuery}"
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Navigation Links — right side */}
-        <div className="hidden md:flex items-center gap-5 flex-shrink-0">
+        {/* Navigation Links */}
+        <div className="hidden md:flex items-center gap-6 flex-shrink-0">
           <Link
             to="/"
-            className="text-sm text-slate-700 hover:text-slate-900 font-medium transition-colors"
+            className="text-sm text-slate-600 hover:text-slate-900 font-medium transition-colors"
           >
             Home
           </Link>
           <Link
             to="/flows"
-            className="text-sm text-slate-700 hover:text-slate-900 font-medium transition-colors"
+            className="text-sm text-slate-600 hover:text-slate-900 font-medium transition-colors"
           >
             Flows
           </Link>
           <Link
             to="/about"
-            className="text-sm text-slate-700 hover:text-slate-900 font-medium transition-colors"
+            className="text-sm text-slate-600 hover:text-slate-900 font-medium transition-colors"
           >
             About
           </Link>
           <Link
             to="/admin"
-            className="text-sm px-3 py-1.5 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium transition-colors"
+            className="text-sm px-3 py-1.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium transition-colors"
           >
             Admin
           </Link>
