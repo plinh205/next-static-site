@@ -158,19 +158,26 @@ export default function Admin() {
   const handleConceptSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const tags = conceptData.tags.split(',').map(t => t.trim()).filter(Boolean);
-    console.log("Creating concept:", { ...conceptData, tags });
-    flash("concept");
-    setConceptData({
-      title: "",
-      slug: "",
-      domain: "",
-      summary: "",
-      definition: "",
-      mentalModel: "",
-      mechanism: [""],
-      whenToUse: [""],
-      compare: [{ concept: "", difference: "" }],
-      tags: "",
+    fetch("/api/concepts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...conceptData, tags }),
+    }).then((res) => {
+      if (res.ok) {
+        flash("concept");
+        setConceptData({
+          title: "",
+          slug: "",
+          domain: "",
+          summary: "",
+          definition: "",
+          mentalModel: "",
+          mechanism: [""],
+          whenToUse: [""],
+          compare: [{ concept: "", difference: "" }],
+          tags: "",
+        });
+      }
     });
   };
 

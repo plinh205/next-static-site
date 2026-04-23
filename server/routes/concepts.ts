@@ -26,6 +26,9 @@ export const handleCreateConcept: RequestHandler = async (req, res) => {
   if (!title || !domain) {
     return res.status(400).json({ error: "Title and domain are required" });
   }
+  if (!process.env.DATABASE_URL) {
+    return res.status(503).json({ error: "Database not configured" });
+  }
   const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   const concept = {
     type: 'concept',

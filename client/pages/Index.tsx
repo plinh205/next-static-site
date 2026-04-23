@@ -1,9 +1,17 @@
+import { useEffect, useState } from "react";
 import ConceptCard from "@/components/ConceptCard";
 import Layout from "@/components/Layout";
-import { getAllConcepts } from "@/lib/knowledge";
 
 export default function Index() {
-  const concepts = getAllConcepts();
+  const [concepts, setConcepts] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/concepts")
+      .then((res) => res.json())
+      .then((data) => {
+        setConcepts(data.concepts || []);
+      });
+  }, []);
 
   return (
     <Layout>
@@ -12,20 +20,15 @@ export default function Index() {
           <h1 className="text-4xl font-bold text-slate-900 mb-2">
             Knowledge Base
           </h1>
-          <p className="text-slate-600">
-            Browse concepts and explore the knowledge graph
-          </p>
         </header>
 
-        <section aria-label="Concepts">
-          <ul className="space-y-4">
-            {concepts.map((concept: any) => (
-              <li key={concept.slug}>
-                <ConceptCard concept={concept} />
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ul className="space-y-4">
+          {concepts.map((concept: any) => (
+            <li key={concept.slug}>
+              <ConceptCard concept={concept} />
+            </li>
+          ))}
+        </ul>
       </div>
     </Layout>
   );
