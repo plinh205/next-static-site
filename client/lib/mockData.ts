@@ -32,6 +32,21 @@ export interface Concept {
   breadcrumb?: string[];
 }
 
+export interface FlowStep {
+  id: string;
+  title: string;
+  description: string;
+  relatedConcepts: string[];
+  children?: FlowStep[];
+}
+
+export interface Flow {
+  id: string;
+  title: string;
+  description: string;
+  steps: FlowStep[];
+}
+
 export const mockConcepts: Concept[] = [
   {
     slug: "api",
@@ -277,5 +292,110 @@ export const mockConcepts: Concept[] = [
     mentalModel:
       "A VM is like a computer inside a computer. You can install an entire operating system and run applications inside it, isolated from the host.",
     breadcrumb: ["System Design", "Infrastructure"],
+  },
+];
+
+export const mockFlows: Flow[] = [
+  {
+    id: "frontend-to-backend",
+    title: "Frontend to Backend Flow",
+    description: "How a user request travels from frontend to backend and back",
+    steps: [
+      {
+        id: "step-1",
+        title: "User Action",
+        description: "User interacts with the frontend application",
+        relatedConcepts: [],
+      },
+      {
+        id: "step-2",
+        title: "Call API",
+        description: "Frontend sends a request to the backend",
+        relatedConcepts: ["api"],
+        children: [
+          {
+            id: "step-2a",
+            title: "REST API",
+            description: "URL-based, method-based endpoints (GET, POST, PUT, DELETE)",
+            relatedConcepts: ["api"],
+          },
+          {
+            id: "step-2b",
+            title: "RPC Call",
+            description: "Direct function call over network with type safety",
+            relatedConcepts: ["rpc"],
+          },
+        ],
+      },
+      {
+        id: "step-3",
+        title: "Process Request",
+        description: "Backend validates and processes the request",
+        relatedConcepts: [],
+      },
+      {
+        id: "step-4",
+        title: "Query Database",
+        description: "Fetch or update data from persistent storage",
+        relatedConcepts: ["database"],
+      },
+      {
+        id: "step-5",
+        title: "Return Response",
+        description: "Send data back to frontend as JSON",
+        relatedConcepts: ["api"],
+      },
+    ],
+  },
+  {
+    id: "microservices-arch",
+    title: "Microservices Architecture",
+    description: "How to design and deploy a microservices system",
+    steps: [
+      {
+        id: "ms-1",
+        title: "Define Services",
+        description: "Break down application into loosely coupled services",
+        relatedConcepts: [],
+      },
+      {
+        id: "ms-2",
+        title: "Service Communication",
+        description: "Services communicate with each other",
+        relatedConcepts: ["api", "message-queue"],
+        children: [
+          {
+            id: "ms-2a",
+            title: "Synchronous (API)",
+            description: "Direct request-response communication",
+            relatedConcepts: ["api"],
+          },
+          {
+            id: "ms-2b",
+            title: "Asynchronous (Queue)",
+            description: "Message-based decoupled communication",
+            relatedConcepts: ["message-queue"],
+          },
+        ],
+      },
+      {
+        id: "ms-3",
+        title: "Containerization",
+        description: "Package each service in a Docker container",
+        relatedConcepts: ["docker"],
+      },
+      {
+        id: "ms-4",
+        title: "Orchestration",
+        description: "Use Kubernetes to manage and scale containers",
+        relatedConcepts: ["kubernetes"],
+      },
+      {
+        id: "ms-5",
+        title: "Monitoring & Scaling",
+        description: "Monitor performance and auto-scale based on load",
+        relatedConcepts: ["kubernetes"],
+      },
+    ],
   },
 ];

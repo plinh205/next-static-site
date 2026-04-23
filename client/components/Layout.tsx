@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import TopNav from "./TopNav";
 import Sidebar from "./Sidebar";
 
 interface LayoutProps {
@@ -8,22 +8,12 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="app-shell">
-      <header className="app-topbar">
-        <div className="app-topbar__inner">
-          <Link to="/" className="app-brand">
-            <span className="app-brand__mark">KO</span>
-            <span className="app-brand__text">Knowledge OS</span>
-          </Link>
-
-          <div className="app-search-placeholder">Search concepts...</div>
-        </div>
-      </header>
-
-      <div className="app-body">
+    <div className="flex flex-col h-screen bg-white">
+      <TopNav />
+      
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-
-        <main className="app-main">
+        <main className="flex-1 overflow-auto">
           <div className="app-content">{children}</div>
         </main>
       </div>
