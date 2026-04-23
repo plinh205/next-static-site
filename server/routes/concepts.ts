@@ -3,16 +3,26 @@ import { getAllConcepts } from "../../lib/content.js";
 import { GetConceptsResponse, CreateConceptResponse, CreateConceptRequest } from "@shared/api";
 import { getDb } from "../../db/index.js";
 import { conceptsTable } from "../../db/schema.js";
-import { eq } from "drizzle-orm";
+import { eq, ilike, or } from "drizzle-orm";
 
-export const handleGetConcepts: RequestHandler = async (_req, res) => {
-  const concepts = await getAllConcepts();
+export const handleGetConcepts: RequestHandler = async (req, res) => {
+  const q = typeof req.query.q === "string" && req.query.q.trim() ? req.query.q.trim() : null;
+  let concepts: Record<string, unknown>[];
+  if (q && process.env.DATABASE_URL) {
+    const db = getDb();
+    const rows = await db.select().from(conceptsTable).where(
+      or(ilike(conceptsTable.title, `%${q}%`), ilike(conceptsTable.summary, `%${q}%`))
+    );
+    concepts = rows.map(r => ({ ...r, tags: (r.tags ?? '').split(',').filter(Boolean) }));
+  } else {
+    concepts = await getAllConcepts();
+  }
   const response: GetConceptsResponse = { concepts };
   res.json(response);
 };
 
 export const handleCreateConcept: RequestHandler = async (req, res) => {
-  const { title, domain }: CreateConceptRequest = req.body;
+  const { title, domain, tags }: CreateConceptRequest & { tags?: string[] } = req.body;
   if (!title || !domain) {
     return res.status(400).json({ error: "Title and domain are required" });
   }
@@ -28,7 +38,7 @@ export const handleCreateConcept: RequestHandler = async (req, res) => {
   if (existing.length > 0) {
     return res.status(400).json({ error: "Concept already exists" });
   }
-  await db.insert(conceptsTable).values({ slug, title, domain });
+  await db.insert(conceptsTable).values({ slug, title, domain, tags: (tags ?? []).join(',') });
   const response: CreateConceptResponse = { concept };
   res.json(response);
 };

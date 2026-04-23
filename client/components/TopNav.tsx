@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
-import { getAllConcepts } from "@/lib/knowledge";
+import { useQuery } from "@tanstack/react-query";
 
 interface SearchResult {
   slug: string;
   title: string;
   summary: string;
+  domain: string;
 }
 
 export default function TopNav() {
@@ -14,7 +15,13 @@ export default function TopNav() {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  const { data: concepts = [] } = useQuery({
+    queryKey: ["concepts"],
+    queryFn: () => fetch("/api/concepts").then(r => r.json()).then(d => d.concepts ?? []),
+  });
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -30,6 +37,18 @@ export default function TopNav() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setSearchOpen(true);
+        inputRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
 
@@ -38,7 +57,6 @@ export default function TopNav() {
       return;
     }
 
-    const concepts = getAllConcepts();
     const filtered = concepts
       .filter((concept: any) =>
         concept.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -49,6 +67,7 @@ export default function TopNav() {
         slug: concept.slug,
         title: concept.title,
         summary: concept.summary || "",
+        domain: concept.domain || "",
       }));
 
     setResults(filtered);
@@ -102,6 +121,7 @@ export default function TopNav() {
             <input
               type="text"
               placeholder="Search concepts..."
+              ref={inputRef}
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               className="flex-1 bg-transparent px-3 py-1 text-sm outline-none"
@@ -132,6 +152,11 @@ export default function TopNav() {
                   <div className="font-medium text-slate-900">
                     {highlightMatch(result.title, searchQuery)}
                   </div>
+                  {result.domain && (
+                    <span className="inline-block text-xs text-slate-500 bg-slate-100 rounded px-1.5 py-0.5 mt-1">
+                      {result.domain}
+                    </span>
+                  )}
                   <div className="text-sm text-slate-600 mt-1 line-clamp-2">
                     {highlightMatch(result.summary, searchQuery)}
                   </div>
@@ -163,6 +188,12 @@ export default function TopNav() {
             className="text-sm text-slate-600 hover:text-slate-900 font-medium transition-colors"
           >
             Flows
+          </Link>
+          <Link
+            to="/graph"
+            className="text-sm text-slate-600 hover:text-slate-900 font-medium transition-colors"
+          >
+            Graph
           </Link>
           <Link
             to="/about"

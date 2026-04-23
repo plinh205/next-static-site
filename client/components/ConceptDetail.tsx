@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { getConceptDisplayData } from "@/lib/knowledge";
 import type { Concept } from "@/lib/mockData";
+import { getRecommendations, type ApiRelation } from "@/lib/recommendations";
 import LearningTimeline from "./LearningTimeline";
 import RelationList from "./RelationList";
 
@@ -11,6 +13,16 @@ interface ConceptDetailProps {
 
 export default function ConceptDetail({ concept }: ConceptDetailProps) {
   const content = getConceptDisplayData(concept);
+
+  const { data: allConcepts = [] } = useQuery<Concept[]>({
+    queryKey: ["concepts"],
+    queryFn: () => fetch("/api/concepts").then(r => r.json()).then(d => d.concepts ?? []),
+  });
+  const { data: relations = [] } = useQuery<ApiRelation[]>({
+    queryKey: ["relations"],
+    queryFn: () => fetch("/api/relations").then(r => r.json()).then(d => d.relations ?? []),
+  });
+  const recommendations = getRecommendations(concept, allConcepts, relations);
   const coreMechanismItems =
     content.coreMechanism.length > 0
       ? content.coreMechanism
@@ -55,6 +67,15 @@ export default function ConceptDetail({ concept }: ConceptDetailProps) {
         ) : null}
 
         <h1 className="text-4xl font-bold text-slate-900 leading-tight">{content.title}</h1>
+        {concept.tags && concept.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-3">
+            {concept.tags.map(tag => (
+              <Link key={tag} to={`/?tag=${tag}`} className="inline-block px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs hover:bg-blue-100 transition-colors">
+                {tag}
+              </Link>
+            ))}
+          </div>
+        )}
       </header>
 
       <div className="flex flex-col gap-10">
@@ -121,6 +142,28 @@ export default function ConceptDetail({ concept }: ConceptDetailProps) {
         {concept.learningLogs?.length ? (
           <LearningTimeline logs={concept.learningLogs} fallbackTopic={content.title} />
         ) : null}
+
+        {recommendations.length > 0 && (
+          <section>
+            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Explore Next</h2>
+            <div className="flex flex-col gap-3">
+              {recommendations.map(r => (
+                <Link
+                  key={r.slug}
+                  to={`/concept/${r.slug}`}
+                  className="border border-slate-200 rounded-xl px-4 py-3 hover:border-slate-400 hover:bg-slate-50 transition-colors"
+                >
+                  <div className="font-medium text-slate-900">{r.title}</div>
+                  {r.domain && (
+                    <span className="inline-block text-xs text-slate-500 bg-slate-100 rounded px-1.5 py-0.5 mt-1">
+                      {r.domain}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

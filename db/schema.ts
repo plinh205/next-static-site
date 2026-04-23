@@ -10,6 +10,7 @@ export const conceptsTable = pgTable("concepts", {
   difficulty: varchar("difficulty"),
   importance: varchar("importance"),
   status: varchar("status"),
+  tags: text("tags").default(""),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at"),
 });

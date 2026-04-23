@@ -23,6 +23,7 @@ interface ConceptFormData {
   mechanism: string[];
   whenToUse: string[];
   compare: CompareItem[];
+  tags: string;
 }
 
 interface RelationFormData {
@@ -62,6 +63,7 @@ export default function Admin() {
     mechanism: [""],
     whenToUse: [""],
     compare: [{ concept: "", difference: "" }],
+    tags: "",
   });
 
   const [relationData, setRelationData] = useState<RelationFormData>({
@@ -155,7 +157,8 @@ export default function Admin() {
 
   const handleConceptSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Creating concept:", conceptData);
+    const tags = conceptData.tags.split(',').map(t => t.trim()).filter(Boolean);
+    console.log("Creating concept:", { ...conceptData, tags });
     flash("concept");
     setConceptData({
       title: "",
@@ -167,6 +170,7 @@ export default function Admin() {
       mechanism: [""],
       whenToUse: [""],
       compare: [{ concept: "", difference: "" }],
+      tags: "",
     });
   };
 
@@ -393,6 +397,16 @@ export default function Admin() {
                 <DomainSelect
                   value={conceptData.domain}
                   onChange={(v) => setConceptData({ ...conceptData, domain: v })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Tags (optional)</label>
+                <Input
+                  name="tags"
+                  value={conceptData.tags}
+                  onChange={handleConceptInputChange}
+                  placeholder="e.g. async, beginner-friendly, distributed"
                 />
               </div>
 

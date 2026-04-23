@@ -10,6 +10,7 @@ import Homepage from "./pages/Homepage";
 import ConceptDetail from "./pages/ConceptDetail";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
+import Graph from "./pages/Graph";
 import About from "./pages/About";
 import Flows from "./pages/Flows";
 import FlowDetail from "./pages/FlowDetail";
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/concept/:slug" element={<ConceptDetail />} />
           <Route path="/admin" element={<ProtectedRoute element={<Admin />} />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/graph" element={<Graph />} />
           <Route path="/about" element={<About />} />
           <Route path="/flows" element={<Flows />} />
           <Route path="/flows/:id" element={<FlowDetail />} />

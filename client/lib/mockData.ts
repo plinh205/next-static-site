@@ -30,6 +30,7 @@ export interface Concept {
     updatedModel?: string;
   }>;
   breadcrumb?: string[];
+  tags?: string[];
 }
 
 export interface FlowStep {

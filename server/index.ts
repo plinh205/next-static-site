@@ -4,6 +4,7 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleGetConcepts, handleCreateConcept } from "./routes/concepts";
 import { handleGetDomains, handleCreateDomain } from "./routes/domains";
+import { handleGetRelations } from "./routes/relations";
 import { handleLogin } from "./routes/auth";
 import { requireAuth } from "./middleware/auth";
 import { getDb } from "../db/index";
@@ -35,6 +36,8 @@ export function createServer() {
       res.json({ ok: false, error: String(err) });
     }
   });
+
+  app.get("/api/relations", handleGetRelations);
 
   app.get("/api/concepts", handleGetConcepts);
   app.post("/api/concepts", requireAuth, handleCreateConcept);
