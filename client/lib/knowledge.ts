@@ -124,6 +124,12 @@ function sortDomainTree(nodes: DomainTreeNode[]) {
     });
 }
 
+export async function fetchConcepts(): Promise<Concept[]> {
+  const res = await fetch('/api/concepts');
+  const json = await res.json();
+  return json.concepts as Concept[];
+}
+
 export function getDomainTree(concepts: Concept[] = mockConcepts) {
   const tree: DomainTreeNode[] = [];
 

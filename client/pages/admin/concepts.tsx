@@ -15,17 +15,35 @@ export default function AdminConcepts() {
     definition: "",
     mentalModel: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Concept created:", formData);
-    setFormData({ title: "", domain: "", summary: "", definition: "", mentalModel: "" });
-    alert("Concept created successfully!");
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/concepts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: formData.title, domain: formData.domain }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.error);
+        return;
+      }
+      const data = await response.json();
+      setFormData({ title: "", domain: "", summary: "", definition: "", mentalModel: "" });
+      alert(`Concept "${data.concept.slug}" created!`);
+    } catch {
+      alert("An unexpected error occurred.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -110,7 +128,7 @@ export default function AdminConcepts() {
             />
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             Create Concept
           </Button>
         </form>

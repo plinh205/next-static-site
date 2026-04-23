@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Layout from "@/components/Layout";
-import { mockConcepts } from "@/lib/mockData";
+import { fetchConcepts } from "@/lib/knowledge";
 
 export default function Homepage() {
+  const { data, isLoading, isError } = useQuery({ queryKey: ['concepts'], queryFn: fetchConcepts });
+
   return (
     <Layout>
       <div className="max-w-2xl mx-auto px-8 py-12">
@@ -16,7 +19,9 @@ export default function Homepage() {
         </div>
 
         <div className="grid gap-4">
-          {mockConcepts.map((concept) => (
+          {isLoading && <p className="text-slate-500">Loading concepts...</p>}
+          {isError && <p className="text-red-500">Failed to load concepts.</p>}
+          {data?.map((concept) => (
             <Link
               key={concept.slug}
               to={`/concept/${concept.slug}`}

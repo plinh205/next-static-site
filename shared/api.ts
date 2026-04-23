@@ -10,3 +10,29 @@
 export interface DemoResponse {
   message: string;
 }
+
+export interface CreateConceptRequest {
+  title: string;
+  domain: string;
+}
+
+export interface CreateConceptResponse {
+  concept: { type: string; slug: string; title: string; domain: string };
+}
+
+export interface GetConceptsResponse {
+  concepts: Record<string, unknown>[];
+}
+
+export interface CreateDomainRequest {
+  title: string;
+  parent?: string;
+}
+
+export interface CreateDomainResponse {
+  domain: { type: string; slug: string; title: string; parent?: string };
+}
+
+export interface GetDomainsResponse {
+  domains: Record<string, unknown>[];
+}
