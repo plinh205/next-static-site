@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { handleGetConcepts, handleCreateConcept } from "./routes/concepts";
+import { handleGetConcepts, handleCreateConcept, handleGetConceptBySlug } from "./routes/concepts";
 import { handleGetDomains, handleCreateDomain } from "./routes/domains";
 import { handleGetRelations } from "./routes/relations";
 import { handleLogin } from "./routes/auth";
@@ -40,6 +40,7 @@ export function createServer() {
   app.get("/api/relations", handleGetRelations);
 
   app.get("/api/concepts", handleGetConcepts);
+  app.get("/api/concepts/:slug", handleGetConceptBySlug);
   app.post("/api/concepts", requireAuth, handleCreateConcept);
   app.get("/api/domains", handleGetDomains);
   app.post("/api/domains", requireAuth, handleCreateDomain);

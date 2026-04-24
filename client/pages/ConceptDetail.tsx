@@ -1,13 +1,23 @@
 import ConceptDetailView from "@/components/ConceptDetail";
 import Layout from "@/components/Layout";
-import { getConceptBySlug } from "@/lib/knowledge";
 import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ConceptDetailPage() {
   const { slug } = useParams<{ slug: string }>();
-  const concept = getConceptBySlug(slug);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["concept", slug],
+    queryFn: () => fetch(`/api/concepts/${slug}`).then(r => r.ok ? r.json() : Promise.reject(r.status)),
+    enabled: !!slug,
+  });
 
-  if (!concept) {
+  const concept = data?.concept;
+
+  if (isLoading) {
+    return <Layout><div className="flex items-center justify-center min-h-screen text-slate-500">Loading…</div></Layout>;
+  }
+
+  if (isError || !concept) {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-screen">

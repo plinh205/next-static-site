@@ -21,6 +21,20 @@ export const handleGetConcepts: RequestHandler = async (req, res) => {
   res.json(response);
 };
 
+export const handleGetConceptBySlug: RequestHandler = async (req, res) => {
+  const { slug } = req.params;
+  if (!process.env.DATABASE_URL) {
+    return res.status(503).json({ error: "Database not configured" });
+  }
+  const db = getDb();
+  const rows = await db.select().from(conceptsTable).where(eq(conceptsTable.slug, slug)).limit(1);
+  if (rows.length === 0) {
+    return res.status(404).json({ error: "Concept not found" });
+  }
+  const row = rows[0];
+  res.json({ concept: { ...row, tags: (row.tags ?? '').split(',').filter(Boolean) } });
+};
+
 export const handleCreateConcept: RequestHandler = async (req, res) => {
   const { title, domain, tags }: CreateConceptRequest & { tags?: string[] } = req.body;
   if (!title || !domain) {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { getDomainTree, type DomainTreeGroup, type DomainTreeItem } from "@/lib/knowledge";
+import { useQuery } from "@tanstack/react-query";
 
 interface SidebarProps {
   expandedDomains: Record<string, boolean>;
@@ -11,7 +12,11 @@ interface SidebarProps {
 export default function Sidebar({ expandedDomains, onToggleDomain }: SidebarProps) {
   const location = useLocation();
   const [expandedSubcategories, setExpandedSubcategories] = useState<Record<string, boolean>>({});
-  const domains = getDomainTree();
+  const { data: concepts = [] } = useQuery({
+    queryKey: ["concepts"],
+    queryFn: () => fetch("/api/concepts").then(r => r.json()).then(d => d.concepts ?? []),
+  });
+  const domains = getDomainTree(concepts);
 
   const isConceptActive = (slug: string) => location.pathname === `/concept/${slug}`;
 
