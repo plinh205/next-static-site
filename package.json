@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
-    "start": "node dist/server/node-build.mjs",
+    "start": "node dist/server/index.js",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "typecheck": "tsc"
@@ -17,6 +17,7 @@
     "d3-force": "^3.0.0",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.45.2",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.3",
     "zod": "^3.25.76"
@@ -69,7 +70,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "drizzle-kit": "^0.31.10",
     "embla-carousel-react": "^8.6.0",

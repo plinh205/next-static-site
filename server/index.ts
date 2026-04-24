@@ -47,3 +47,8 @@ export function createServer() {
 
   return app;
 }
+
+const port = process.env.PORT || 8080;
+createServer().listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
