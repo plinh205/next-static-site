@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import ConceptCard from "@/components/ConceptCard";
 import Layout from "@/components/Layout";
+import { API_BASE } from "@/lib/config";
 
 export default function Index() {
   const [concepts, setConcepts] = useState([]);
 
   useEffect(() => {
-    fetch("/api/concepts")
+    fetch(`${API_BASE}/api/concepts`)
       .then((res) => res.json())
       .then((data) => {
         setConcepts(data.concepts || []);

@@ -1,4 +1,5 @@
 import { mockConcepts, type Concept } from "./mockData";
+import { API_BASE } from "./config";
 
 export interface ConceptCompareRow {
   target: string;
@@ -125,7 +126,7 @@ function sortDomainTree(nodes: DomainTreeNode[]) {
 }
 
 export async function fetchConcepts(): Promise<Concept[]> {
-  const res = await fetch('/api/concepts');
+  const res = await fetch(`${API_BASE}/api/concepts`);
   const json = await res.json();
   return json.concepts as Concept[];
 }

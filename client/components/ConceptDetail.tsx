@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getConceptDisplayData } from "@/lib/knowledge";
+import { API_BASE } from "@/lib/config";
 import type { Concept } from "@/lib/mockData";
 import { getRecommendations, type ApiRelation } from "@/lib/recommendations";
 import LearningTimeline from "./LearningTimeline";
@@ -16,11 +17,11 @@ export default function ConceptDetail({ concept }: ConceptDetailProps) {
 
   const { data: allConcepts = [] } = useQuery<Concept[]>({
     queryKey: ["concepts"],
-    queryFn: () => fetch("/api/concepts").then(r => r.json()).then(d => d.concepts ?? []),
+    queryFn: () => fetch(`${API_BASE}/api/concepts`).then(r => r.json()).then(d => d.concepts ?? []),
   });
   const { data: relations = [] } = useQuery<ApiRelation[]>({
     queryKey: ["relations"],
-    queryFn: () => fetch("/api/relations").then(r => r.json()).then(d => d.relations ?? []),
+    queryFn: () => fetch(`${API_BASE}/api/relations`).then(r => r.json()).then(d => d.relations ?? []),
   });
   const recommendations = getRecommendations(concept, allConcepts, relations);
   const coreMechanismItems =

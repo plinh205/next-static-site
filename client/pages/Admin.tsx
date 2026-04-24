@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AdminLayout, { type AdminTab } from "@/components/AdminLayout";
+import { API_BASE } from "@/lib/config";
 import DomainSelect from "@/components/DomainSelect";
 import ConceptMultiSelect from "@/components/ConceptMultiSelect";
 import { Button } from "@/components/ui/button";
@@ -158,7 +159,7 @@ export default function Admin() {
   const handleConceptSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const tags = conceptData.tags.split(',').map(t => t.trim()).filter(Boolean);
-    fetch("/api/concepts", {
+    fetch(`${API_BASE}/api/concepts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...conceptData, tags }),

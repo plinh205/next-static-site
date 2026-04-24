@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "@/lib/config";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +27,7 @@ export default function AdminConcepts() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/concepts', {
+      const response = await fetch(`${API_BASE}/api/concepts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: formData.title, domain: formData.domain }),

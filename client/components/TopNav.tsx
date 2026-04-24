@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { API_BASE } from "@/lib/config";
 
 interface SearchResult {
   slug: string;
@@ -20,7 +21,7 @@ export default function TopNav() {
 
   const { data: concepts = [] } = useQuery({
     queryKey: ["concepts"],
-    queryFn: () => fetch("/api/concepts").then(r => r.json()).then(d => d.concepts ?? []),
+    queryFn: () => fetch(`${API_BASE}/api/concepts`).then(r => r.json()).then(d => d.concepts ?? []),
   });
 
   useEffect(() => {

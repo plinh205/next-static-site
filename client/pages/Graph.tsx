@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Layout from "@/components/Layout";
 import ConceptGraph, { PALETTE } from "@/components/ConceptGraph";
 import type { Concept } from "@/lib/mockData";
+import { API_BASE } from "@/lib/config";
 
 interface ApiRelation {
   from: string;
@@ -12,11 +13,11 @@ interface ApiRelation {
 export default function Graph() {
   const { data: concepts = [], isLoading: loadingConcepts } = useQuery<Concept[]>({
     queryKey: ["concepts"],
-    queryFn: () => fetch("/api/concepts").then(r => r.json()).then(d => d.concepts ?? []),
+    queryFn: () => fetch(`${API_BASE}/api/concepts`).then(r => r.json()).then(d => d.concepts ?? []),
   });
   const { data: relations = [], isLoading: loadingRelations } = useQuery<ApiRelation[]>({
     queryKey: ["relations"],
-    queryFn: () => fetch("/api/relations").then(r => r.json()).then(d => d.relations ?? []),
+    queryFn: () => fetch(`${API_BASE}/api/relations`).then(r => r.json()).then(d => d.relations ?? []),
   });
 
   const domains = [...new Set(concepts.map(c => c.domain?.split(">")[0].trim() ?? "General"))];

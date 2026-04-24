@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Concept } from "@shared/api";
+import { API_BASE } from "@/lib/config";
 
 interface ConceptSelectorProps {
   value: string[];
@@ -12,7 +13,7 @@ export default function ConceptSelector({ value, onChange }: ConceptSelectorProp
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/concepts")
+    fetch(`${API_BASE}/api/concepts`)
       .then(res => res.json())
       .then((data: { concepts: Concept[] }) => {
         setConcepts(data.concepts);
